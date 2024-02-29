@@ -1,7 +1,8 @@
 let inputval = document.querySelector(".form-control");
 let addbtn = document.querySelector(".btn");
 let unordered = document.querySelector("ul");
-let inpt=document.querySelector(".inpt");
+let inpt = document.querySelector(".inpt");
+let dlt = document.querySelector("#dlt");
 
 inputval.placeholder = "write here";
 
@@ -11,25 +12,33 @@ function EventListeners() {
   addbtn.addEventListener("click", todolist);
   document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
   unordered.addEventListener("click", deleteTodo);
-  inpt.addEventListener("keyup",searchTodo)
+  inpt.addEventListener("keyup", searchTodo);
+  dlt.addEventListener("click", deleteAllTodo);
 }
 
-function searchTodo(e) {
-  
-  let val=e.target.value.toLowerCase();
-  let lists=document.querySelectorAll("li")
-  
-  lists.forEach(function(list) {
-    const listItem=list.textContent.toLowerCase();
+function deleteAllTodo() {
+ while (unordered.firstElementChild != null) {
+   unordered.removeChild(unordered.firstElementChild)
+ }
+ localStorage.removeItem("todos")
+   
+ } 
 
-    if(listItem.indexOf(val)===-1){
-      list.setAttribute("style","display:none !important")
+
+function searchTodo(e) {
+  let val = e.target.value.toLowerCase();
+  let lists = document.querySelectorAll("li");
+
+  lists.forEach(function (list) {
+    const listItem = list.textContent.toLowerCase();
+
+    if (listItem.indexOf(val) === -1) {
+      list.setAttribute("style", "display:none !important");
+    } 
+    else {
+      list.setAttribute("style", "display:block !important");
     }
-    else{
-      list.setAttribute("style","display:block !important")
-    }
-    
-  })
+  });
 }
 
 function deleteTodo(e) {
@@ -45,8 +54,7 @@ function deleteTodoFromStorage(deletetodo) {
   todos.forEach(function (todo, index) {
     if (todo === deletetodo) {
       console.log("lele");
-    }    
-    else {
+    } else {
     }
   });
 
@@ -103,5 +111,3 @@ function AddTodoStorage(newtodo) {
   todoss.push(newtodo);
   localStorage.setItem("todos", JSON.stringify(todoss));
 }
-
-
